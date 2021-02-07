@@ -1,5 +1,8 @@
 import React from 'react';
-import './App.css';
+import { Route } from 'react-router-dom';
+
+import PageRender from './PageRender';
+import { Home, Login } from './pages';
 
 const App = () => {
   return (
@@ -7,7 +10,9 @@ const App = () => {
     <input type="checkbox" id="theme" />
       <div className="App">
         <div className="main">
-          hello world
+          <Route exact path="/" component={Login} />
+          <Route exact path="/:page" component={PageRender} />
+          <Route exact path="/:page/:id" component={PageRender} />
         </div>
       </div>
     </>

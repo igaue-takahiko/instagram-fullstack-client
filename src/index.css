@@ -14,6 +14,10 @@ code {
     monospace;
 }
 
+#theme {
+  display: none;
+}
+
 #theme:checked ~ .App {
   filter: invert(1);
 }
@@ -29,3 +33,6 @@ code {
   width: 100%;
   margin: auto;
 }
+
+/*-------- auth ----------*/
+@import url('./styles/auth.css');
