@@ -31,16 +31,16 @@ const Login = () => {
           <input
             type="email" className="form-control" id="exampleInputEmail1"
             aria-describedby="emailHelp" placeholder="Enter email" name="email"
-            value={email} onChange={handleChangeInput}
+            value={email} onChange={handleChangeInput} autoComplete="true"
           />
         </div>
-        <div className="form-group mb-3">
+        <div className="form-group mb-4">
           <label htmlFor="exampleInputPassword1">Password</label>
           <div className="pass">
             <input
               type={typePass ? "text" : "password"}
               className="form-control" id="exampleInputPassword1"
-              placeholder="Password" name="password"
+              placeholder="Password" name="password" autoComplete="true"
               value={password} onChange={handleChangeInput}
             />
             <small onClick={() => setTypePass(!typePass)}>

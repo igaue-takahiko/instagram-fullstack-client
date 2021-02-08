@@ -3,11 +3,11 @@ import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 
 import { authReducer } from '../auth/reducers';
-import { notifyReducer } from '../notify/reducers';
+import { alertReducer } from '../alert/reducers';
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  notify: notifyReducer,
+  alert: alertReducer,
 })
 
 export const store = createStore(

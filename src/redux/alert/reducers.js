@@ -1,9 +1,9 @@
-import { notifyTypes } from './types';
+import { globalTypes } from '../globalTypes';
 import { initialState } from '../store/initialState';
 
-export const notifyReducer = (state = initialState.notify, action) => {
+export const alertReducer = (state = initialState.alert, action) => {
   switch (action.type) {
-    case notifyTypes.NOTIFY:
+    case globalTypes.ALERT:
       return action.payload
     default:
       return state
