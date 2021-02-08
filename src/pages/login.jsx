@@ -4,10 +4,15 @@ import { useDispatch } from 'react-redux';
 
 import { login } from '../redux/auth/actions';
 
+const initialState = {
+  email: "",
+  password: ""
+}
+
 const Login = () => {
   const dispatch = useDispatch()
 
-  const [ userData, setUserData ] = useState({ email: "", password: "" })
+  const [ userData, setUserData ] = useState(initialState)
   const [ typePass, setTypePass ] = useState(false)
 
   const { email, password } = userData
@@ -20,6 +25,7 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     dispatch(login(userData))
+    setUserData(initialState)
   }
 
   return (
@@ -27,20 +33,20 @@ const Login = () => {
       <form onSubmit={handleSubmit}>
         <h2 className="text-uppercase text-center mb-4">login</h2>
         <div className="form-group mb-3">
-          <label htmlFor="exampleInputEmail1">Email address</label>
+          <label htmlFor="email">Email address</label>
           <input
-            type="email" className="form-control" id="exampleInputEmail1"
-            aria-describedby="emailHelp" placeholder="Enter email" name="email"
+            type="email" className="form-control" id="email"
+            aria-describedby="emailHelp" name="email"
             value={email} onChange={handleChangeInput} autoComplete="true"
           />
         </div>
         <div className="form-group mb-4">
-          <label htmlFor="exampleInputPassword1">Password</label>
+          <label htmlFor="password">Password</label>
           <div className="pass">
             <input
               type={typePass ? "text" : "password"}
-              className="form-control" id="exampleInputPassword1"
-              placeholder="Password" name="password" autoComplete="true"
+              className="form-control" id="password"
+              placeholder="6 characters or more" name="password" autoComplete="true"
               value={password} onChange={handleChangeInput}
             />
             <small onClick={() => setTypePass(!typePass)}>
