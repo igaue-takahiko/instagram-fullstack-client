@@ -4,18 +4,21 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from 'react-redux';
-
-import "bootstrap/dist/css/bootstrap.min.css";
+import { HelmetProvider } from 'react-helmet-async';
 import "./index.css";
 
 import { store } from './redux/store/store';
 
+const helmetContext = {};
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider  store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <HelmetProvider context={helmetContext}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </HelmetProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

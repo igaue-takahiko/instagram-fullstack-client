@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useDispatch, useSelector } from  'react-redux';
 import { useHistory, Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 import { register } from '../redux/auth/actions';
 
@@ -42,6 +43,10 @@ const Register = () => {
 
   return (
     <div className="auth_page">
+      <Helmet>
+        <title>Register</title>
+        <meta name="description" content="register page"/>
+      </Helmet>
       <form onSubmit={handleSubmit}>
         <h2 className="text-uppercase text-center mb-4">Register</h2>
         <div className="form-group mb-2">
@@ -150,7 +155,7 @@ const Register = () => {
         </button>
         <p>
           {"Already an account ? "}
-          <Link to="/register" style={{ color: "crimson", textDecoration: "none" }}>Login Now</Link>
+          <Link to="/" style={{ color: "crimson", textDecoration: "none" }}>Login Now</Link>
         </p>
       </form>
     </div>

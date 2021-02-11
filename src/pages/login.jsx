@@ -1,6 +1,7 @@
-import React, { useState, useCallback } from 'react'
-import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect, useCallback } from 'react'
+import { Link, useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Helmet } from 'react-helmet-async';
 
 import { login } from '../redux/auth/actions';
 
@@ -11,11 +12,19 @@ const initialState = {
 
 const Login = () => {
   const dispatch = useDispatch()
+  const history = useHistory()
+  const { auth } = useSelector(state => state)
 
   const [ userData, setUserData ] = useState(initialState)
   const [ typePass, setTypePass ] = useState(false)
 
   const { email, password } = userData
+
+  useEffect(() => {
+    if (auth.token) {
+      history.push("/")
+    }
+  },[auth.token, history])
 
   const handleChangeInput = useCallback((e) => {
     const { name, value } = e.target
@@ -30,6 +39,10 @@ const Login = () => {
 
   return (
     <div className="auth_page">
+      <Helmet>
+        <title>Login</title>
+        <meta name="description" content="login page"/>
+      </Helmet>
       <form onSubmit={handleSubmit}>
         <h2 className="text-uppercase text-center mb-4">login</h2>
         <div className="form-group mb-3">

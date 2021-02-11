@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom';
 
 import PageRender from './PageRender';
 import { Home, Login } from './pages';
-import { Alert } from './components';
+import { Alert, Header } from './components';
 import { refreshToken } from './redux/auth/actions';
 
 const App = () => {
@@ -20,6 +20,7 @@ const App = () => {
     <Alert />
     <input type="checkbox" id="theme" />
       <div className="App">
+          {auth.token && <Header />}
         <div className="main">
           <Route exact path="/" component={auth.token ? Home : Login} />
           <Route exact path="/:page" component={PageRender} />

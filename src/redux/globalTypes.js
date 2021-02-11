@@ -1,4 +1,5 @@
 export const globalTypes = {
   AUTH: "AUTH",
-  ALERT: "ALERT"
+  ALERT: "ALERT",
+  THEME: "THEME",
 }

@@ -9,7 +9,7 @@ export const login = (data) => async (dispatch) => {
     dispatch({
       type: globalTypes.AUTH,
       payload: {
-        token: res.data.success_token,
+        token: res.data.access_token,
         user: res.data.user,
       },
     });
@@ -35,7 +35,7 @@ export const refreshToken = () => async (dispatch) => {
       dispatch({
         type: globalTypes.AUTH,
         payload: {
-          token: res.data.success_token,
+          token: res.data.access_token,
           user: res.data.user,
         },
       });
@@ -61,7 +61,7 @@ export const register = (data) => async (dispatch) => {
     dispatch({
       type: globalTypes.AUTH,
       payload: {
-        token: res.data.success_token,
+        token: res.data.access_token,
         user: res.data.user,
       },
     });
@@ -77,3 +77,16 @@ export const register = (data) => async (dispatch) => {
     });
   }
 };
+
+export const logout = () => async (dispatch) => {
+  try {
+    localStorage.removeItem('firstLogin')
+    await postDataAPI('logout')
+    window.location.href = "/"
+  } catch (error) {
+    dispatch({
+      type: globalTypes.ALERT,
+      payload: { error: error.response.data.message },
+    });
+  }
+}
