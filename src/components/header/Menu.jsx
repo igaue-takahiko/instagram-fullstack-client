@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 
-import { logout } from '../redux/auth/actions';
-import { globalTypes } from '../redux/globalTypes';
+import { globalTypes } from '../../redux/globalTypes';
+import { logout } from '../../redux/auth/actions';
+import Avatar from '../Avatar';
 
-import Avatar from './Avatar';
-
-const Header = () => {
+const Menu = () => {
   const dispatch = useDispatch()
   const { auth, theme } = useSelector(state => state)
   const { pathname } = useLocation()
@@ -26,14 +25,7 @@ const Header = () => {
   }
 
   return (
-    <nav
-      className="navbar navbar-expand-lg navbar-light bg-light justify-content-lg-between align-middle"
-      style={{ position: "sticky", top: 0, zIndex: 10, boxShadow: "0 2px 4px 0 rgba(0, 0, 0, .3)" }}
-    >
-      <Link to="/">
-        <h1 className="navbar-brand text-uppercase ml-3 p-0">Instagram</h1>
-      </Link>
-      <div className="menu" id="navbarSupportedContent">
+    <div className="menu">
         <ul className="navbar-nav flex-row mr-3">
           {navLinks.map((link, index) => (
             <li className={`nav-item px-2 ${isActive(link.path)}`} key={index}>
@@ -47,10 +39,10 @@ const Header = () => {
               className="nav-link dropdown-toggle" id="navbarDropdown" role="button"
               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
             >
-              <Avatar src={auth.user.avatar} />
+              <Avatar src={auth.user.avatar} size="medium-avatar" />
             </span>
             <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-              <Link className="dropdown-item" to={`/profile/${auth.user}`}>
+              <Link className="dropdown-item" to={`/profile/${auth.user._id}`}>
                 Profile
               </Link>
               <label
@@ -70,8 +62,7 @@ const Header = () => {
           </li>
         </ul>
       </div>
-    </nav>
   )
 }
 
-export default Header
+export default Menu
