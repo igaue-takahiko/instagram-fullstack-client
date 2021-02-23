@@ -5,11 +5,13 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { authReducer } from '../auth/reducers';
 import { alertReducer } from '../alert/reducers';
 import { themeReducer } from '../theme/reducers';
+import { profileReducer } from '../profile/reducers';
 
 const rootReducer = combineReducers({
   auth: authReducer,
   alert: alertReducer,
-  theme: themeReducer
+  theme: themeReducer,
+  profile: profileReducer,
 })
 
 export const store = createStore(

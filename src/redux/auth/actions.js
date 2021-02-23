@@ -16,12 +16,12 @@ export const login = (data) => async (dispatch) => {
     localStorage.setItem("firstLogin", true);
     dispatch({
       type: globalTypes.ALERT,
-      payload: { success: res.data.message },
+      payload: { success: res.data.msg },
     });
   } catch (error) {
     dispatch({
       type: globalTypes.ALERT,
-      payload: { error: error.response.data.message },
+      payload: { error: error.response.data.msg },
     });
   }
 };
@@ -43,7 +43,7 @@ export const refreshToken = () => async (dispatch) => {
     } catch (error) {
       dispatch({
         type: globalTypes.ALERT,
-        payload: { error: error.response.data.message },
+        payload: { error: error.response.data.msg },
       });
     }
   }
@@ -68,12 +68,12 @@ export const register = (data) => async (dispatch) => {
     localStorage.setItem("firstLogin", true);
     dispatch({
       type: globalTypes.ALERT,
-      payload: { success: res.data.message },
+      payload: { success: res.data.msg },
     });
   } catch (error) {
     dispatch({
       type: globalTypes.ALERT,
-      payload: { error: error.response.data.message },
+      payload: { error: error.response.data.msg },
     });
   }
 };
@@ -86,7 +86,7 @@ export const logout = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: globalTypes.ALERT,
-      payload: { error: error.response.data.message },
+      payload: { error: error.response.data.msg },
     });
   }
 }

@@ -20,6 +20,7 @@
 /*-------- Header Menu --------- */
 .header .menu li {
   opacity: 0.5;
+  background: #fafafa;
 }
 
 .header .menu li .active {
@@ -34,6 +35,7 @@
   position: absolute;
   left: inherit;
   right: 0;
+  background: #fafafa;
 }
 
 .header .menu label {
@@ -88,6 +90,15 @@
   margin-top: 3px;
 }
 
+.header .search_form .loading {
+  position: absolute;
+  top: 20%;
+  right: 0;
+  width: 15px;
+  height: 15px;
+  transform: translate(-20%);
+}
+
 /*-------- Responsive --------- */
 @media (max-width: 768px) {
   .header .menu {
@@ -95,6 +106,7 @@
     bottom: 0;
     left: 0;
     width: 100%;
+    background: #fafafa;
     box-shadow: 0 0 10px #ddd;
     z-index: 2;
   }

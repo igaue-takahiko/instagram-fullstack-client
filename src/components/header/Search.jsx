@@ -1,10 +1,10 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import { getDataAPI } from '../../utils/fetchData';
 import { globalTypes } from '../../redux/globalTypes';
 import UserCard from '../UserCard';
+import LoadIcon from '../../images/load-icon.gif';
 
 const Search = () => {
   const dispatch = useDispatch()
@@ -12,31 +12,36 @@ const Search = () => {
 
   const [ search, setSearch ] = useState("")
   const [ users, setUsers ] = useState([])
-
-  useEffect(() => {
-    if (search) {
-      getDataAPI(`search?username=${search}`, auth.token)
-      .then(res => setUsers(res.data.users)).catch(error => {
-        dispatch({
-          type: globalTypes.ALERT, payload: { error: error.res.data.msg }
-        })
-      })
-    } else {
-      setUsers([])
-    }
-  },[auth.token, dispatch, search])
+  const [ load, setLoad ] = useState(false)
 
   const searchInput = useCallback((e) => {
     setSearch(e.target.value.toLowerCase().replace(/ /g, ""))
-  },[])
+  },[setSearch])
 
   const handleClose = () => {
     setSearch("")
     setUsers([])
   }
 
+  const handleSearch = async (e) => {
+    e.preventDefault()
+    if (!search) {
+      return
+    }
+
+    try {
+      const res = await getDataAPI(`search?username=${search}`, auth.token)
+      setUsers(res.data.users)
+      setLoad(false)
+    } catch (error) {
+      dispatch({
+        type: globalTypes.ALERT, payload: { error: error.res.data.msg }
+      })
+    }
+  }
+
   return (
-    <form className="search_form">
+    <form className="search_form" onSubmit={handleSearch}>
       <input
         type="text" name="search" id="search"
         value={search} onChange={searchInput}
@@ -51,11 +56,19 @@ const Search = () => {
       >
         &times;
       </div>
+      <button
+        type="submit"
+        style={{ display: "none" }}
+      >
+        Search
+      </button>
+      {load && <img className="loading" src={LoadIcon} alt="loading" />}
       <div className="users">
         {search && users.map((user) => (
-          <Link key={user._id} to={`/profile/${user._id}`} onClick={handleClose}>
-            <UserCard user={user} border="border" />
-          </Link>
+          <UserCard
+            key={user._id} user={user} border="border"
+            handleClose={handleClose}
+          />
         ))}
       </div>
     </form>
