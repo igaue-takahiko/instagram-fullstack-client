@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Loading from './Loading';
 import Toast from './Toast';
-import { globalTypes } from '../redux/globalTypes';
+import { globalTypes } from '../redux/globalState/types';
 
 const Alert = () => {
   const dispatch = useDispatch()

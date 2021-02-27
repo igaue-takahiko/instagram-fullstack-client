@@ -1,4 +1,4 @@
-import { globalTypes } from '../globalTypes';
+import { globalTypes } from '../globalState/types';
 import { initialState } from '../store/initialState';
 
 export const authReducer = (state = initialState.auth, action) => {

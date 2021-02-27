@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 
 import { getDataAPI } from '../../utils/fetchData';
-import { globalTypes } from '../../redux/globalTypes';
+import { globalTypes } from '../../redux/globalState/types';
 import UserCard from '../UserCard';
 import LoadIcon from '../../images/load-icon.gif';
 
@@ -43,7 +43,7 @@ const Search = () => {
   return (
     <form className="search_form" onSubmit={handleSearch}>
       <input
-        type="text" name="search" id="search"
+        type="text" name="search" id="search" title="Enter to Search"
         value={search} onChange={searchInput}
       />
       <div className="search_icon" style={{ opacity: search ? 0 : 0.3  }}>

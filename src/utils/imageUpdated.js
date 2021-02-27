@@ -17,3 +17,21 @@ export const checkImage = (file) => {
 
   return err;
 };
+
+export const imageUpload = async (images) => {
+  let imgArr = [];
+  for (const item of images) {
+    const formData = new FormData();
+    formData.append("file", item);
+    formData.append("upload_preset", "instagram-media");
+    formData.append("cloud_name", "dhst2rbxf");
+
+    const res = await fetch(process.env.REACT_APP_CLOUD_IMAGE_DB_URL, {
+      method: "POST",
+      body: formData,
+    });
+    const data = await res.json();
+    imgArr.push({ public_id: data.public_id, url: data.secure_url });
+  }
+  return imgArr;
+};

@@ -4,7 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
 
 import { checkImage } from '../../utils/imageUpdated';
-import { globalTypes } from '../../redux/globalTypes';
+import { globalTypes } from '../../redux/globalState/types';
+import { updateProfileUser } from '../../redux/profile/actions';
 
 const initialState = {
   fullName: "",
@@ -22,7 +23,7 @@ const EditProfile = ({ setOnEdit }) => {
   const [ userData, setUserData ] = useState(initialState)
   const [ avatar, setAvatar ] = useState("")
 
-  const { fullName, mobile, address, website, story } = userData
+  const { fullName, mobile, address, website, story, gender } = userData
 
   useEffect(() => {
     setUserData(auth.user)
@@ -42,6 +43,12 @@ const EditProfile = ({ setOnEdit }) => {
     setAvatar(file)
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    dispatch(updateProfileUser({ userData, avatar, auth }))
+    setOnEdit(false)
+  }
+
   return (
     <div className="edit_profile">
       <button
@@ -50,7 +57,7 @@ const EditProfile = ({ setOnEdit }) => {
       >
         Close
       </button>
-      <form >
+      <form onSubmit={handleSubmit}>
         <div className="info_avatar">
           <img
             style={{filter: theme ? "invert(1)" : "invert(0)"}}
@@ -120,7 +127,7 @@ const EditProfile = ({ setOnEdit }) => {
         <label htmlFor="gender">Gender</label>
         <div className="input-group-append px-0 mb-4">
           <select
-            className="custom-select text-capitalize"
+            className="custom-select text-capitalize" value={gender}
             name="gender" id="gender" onChange={handleChangeInput}
           >
             <option value="male">Male</option>

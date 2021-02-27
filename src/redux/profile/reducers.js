@@ -1,5 +1,6 @@
 import { profileTypes } from "./types";
 import { initialState } from "../store/initialState";
+import { EditData } from "../globalState/helpers";
 
 export const profileReducer = (state = initialState.profile, action) => {
   switch (action.type) {
@@ -12,6 +13,16 @@ export const profileReducer = (state = initialState.profile, action) => {
       return {
         ...state,
         users: [...state.users, action.payload.user],
+      };
+    case profileTypes.FOLLOW:
+      return {
+        ...state,
+        users: EditData(state.users, action.payload._id, action.payload),
+      };
+    case profileTypes.UN_FOLLOW:
+      return {
+        ...state,
+        users: EditData(state.users, action.payload._id, action.payload),
       };
     default:
       return state;

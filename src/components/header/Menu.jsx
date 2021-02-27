@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 
-import { globalTypes } from '../../redux/globalTypes';
+import { globalTypes } from '../../redux/globalState/types';
 import { logout } from '../../redux/auth/actions';
 import Avatar from '../Avatar';
 
