@@ -1,6 +1,6 @@
 import { globalTypes } from "../globalState/types";
 import { profileTypes } from "./types";
-import { DeleteData } from '../globalState/helpers';
+import { DeleteData } from "../globalState/helpers";
 import { getDataAPI, patchDataAPI } from "../../utils/fetchData";
 import { imageUpload } from "../../utils/imageUpdated";
 
@@ -85,31 +85,68 @@ export const updateProfileUser = ({ userData, avatar, auth }) => async (
 };
 
 export const follow = ({ users, user, auth }) => async (dispatch) => {
-  let newUser = { ...user, followers: [ ...user.followers, auth.user ] }
-  dispatch({ type: profileTypes.FOLLOW, payload: newUser })
+  let newUser;
+
+  if (users.every((item) => item._id !== user._id)) {
+    newUser = { ...user, followers: [...user.followers, auth.user] };
+  } else {
+    users.forEach((item) => {
+      if (item._id === user._id) {
+        newUser = { ...item, followers: [...item.followers, auth.user] };
+      }
+    });
+  }
+
+  dispatch({ type: profileTypes.FOLLOW, payload: newUser });
   dispatch({
     type: globalTypes.AUTH,
     payload: {
       ...auth,
-      user: { ...auth.user, following: [ ...auth.user.following, newUser ] }
-    }
-  })
-}
+      user: { ...auth.user, following: [...auth.user.following, newUser] },
+    },
+  });
+
+  try {
+    await patchDataAPI(`user/${user._id}/follow`, null, auth.token);
+  } catch (error) {
+    dispatch({
+      type: globalTypes.ALERT,
+      payload: { error: error.response.data.msg },
+    });
+  }
+};
 
 export const unFollow = ({ users, user, auth }) => async (dispatch) => {
-  let newUser = {
-    ...user,
-    followers: DeleteData(user.followers, auth.user._id)
+  let newUser;
+
+  if (users.every((item) => item._id !== user._id)) {
+    newUser = { ...user, followers: DeleteData(user.followers, auth.user._id) };
+  } else {
+    users.forEach((item) => {
+      if (item._id === user._id) {
+        newUser = { ...item, followers: DeleteData(item.followers, auth.user._id) };
+      }
+    });
   }
-  dispatch({ type: profileTypes.UN_FOLLOW, payload: newUser })
+
+  dispatch({ type: profileTypes.UN_FOLLOW, payload: newUser });
   dispatch({
     type: globalTypes.AUTH,
     payload: {
       ...auth,
       user: {
         ...auth.user,
-        following: DeleteData(auth.user.following, newUser._id)
-      }
-    }
-  })
-}
+        following: DeleteData(auth.user.following, newUser._id),
+      },
+    },
+  });
+
+  try {
+    await patchDataAPI(`user/${user._id}/unFollow`, null, auth.token);
+  } catch (error) {
+    dispatch({
+      type: globalTypes.ALERT,
+      payload: { error: error.response.data.msg },
+    });
+  }
+};

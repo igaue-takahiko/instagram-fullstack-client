@@ -8,6 +8,7 @@ const FollowBtn = ({ user }) => {
   const { auth, profile } = useSelector(state => state)
 
   const [ followed, setFollowed ] = useState(false)
+  const [ load, setLoad ] = useState(false)
 
   useEffect(() => {
     if (auth.user.following.find(item => item._id === user._id)) {
@@ -15,14 +16,24 @@ const FollowBtn = ({ user }) => {
     }
   },[auth.user.following, user._id])
 
-  const handleFollow = () => {
+  const handleFollow = async () => {
+    if (load) {
+      return
+    }
+    setLoad(true)
     setFollowed(true)
-    dispatch(follow({ users: profile.users, user, auth }))
+    await dispatch(follow({ users: profile.users, user, auth }))
+    setLoad(false)
   }
 
-  const handleUnFollow = () => {
+  const handleUnFollow = async () => {
+    if (load) {
+      return
+    }
     setFollowed(false)
-    dispatch(unFollow({ users: profile.users, user, auth }))
+    setLoad(true)
+    await dispatch(unFollow({ users: profile.users, user, auth }))
+    setLoad(false)
   }
 
   return (
