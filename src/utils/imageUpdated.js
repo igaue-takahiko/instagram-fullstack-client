@@ -10,7 +10,7 @@ export const checkImage = (file) => {
   if (
     file.type !== "image/jpeg" &&
     file.type !== "image/png" &&
-    file.size !== "image/jpg"
+    file.type !== "image/jpg"
   ) {
     err = "Image format is incorrect.";
   }
