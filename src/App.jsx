@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route } from 'react-router-dom';
 
-import { PageRender, PrivateRouter} from './customRouter';
+import { PageRender, PrivateRouter } from './customRouter';
 import { Home, Login, Register } from './pages';
-import { Alert, Header } from './components';
+import { Alert, Header, StatusModal } from './components';
 import { refreshToken } from './redux/auth/actions';
 
 const App = () => {
   const dispatch = useDispatch()
-  const { auth } = useSelector(state => state)
+  const { auth, status } = useSelector(state => state)
 
   useEffect(() => {
     dispatch(refreshToken())
@@ -22,6 +22,7 @@ const App = () => {
       <div className="App">
           {auth.token && <Header />}
         <div className="main">
+          {status  && <StatusModal />}
           <Route exact path="/" component={auth.token ? Home : Login} />
           <Route exact path="/register" component={Register} />
           <PrivateRouter exact path="/:page" component={PageRender} />

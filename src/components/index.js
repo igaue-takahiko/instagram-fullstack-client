@@ -4,3 +4,4 @@ export { default as Info } from './profile/Info';
 export { default as Posts } from './profile/Posts';
 export { default as FollowBtn } from './FollowBtn';
 export { default as NotFound } from './NotFound';
+export { default as StatusModal } from './StatusModal';

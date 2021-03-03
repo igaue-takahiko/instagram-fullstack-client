@@ -7,4 +7,5 @@ export const initialState = {
     users: [],
     posts: [],
   },
+  status: false,
 };
