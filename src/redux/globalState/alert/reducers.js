@@ -1,5 +1,5 @@
-import { globalTypes } from '../globalState/types';
-import { initialState } from '../store/initialState';
+import { globalTypes } from '../types';
+import { initialState } from '../../store/initialState';
 
 export const alertReducer = (state = initialState.alert, action) => {
   switch (action.type) {

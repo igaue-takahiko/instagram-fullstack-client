@@ -1,8 +1,10 @@
 import React, { useState, useCallback, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { globalTypes } from '../redux/globalState/types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera, faImage } from '@fortawesome/free-solid-svg-icons';
+
+import { globalTypes } from '../redux/globalState/types';
+import { createPost } from '../redux/post/actions';
 
 const StatusModal = () => {
   const dispatch = useDispatch()
@@ -79,9 +81,27 @@ const StatusModal = () => {
     setStream(false)
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if (images.length === 0) {
+      return dispatch({
+        type: globalTypes.ALERT,
+        payload: { error: "Please add your photo." }
+      })
+    }
+    dispatch(createPost({ content, images, auth }))
+
+    setContent("")
+    setImages([])
+    if (tracks) {
+      tracks.stop()
+    }
+    dispatch({ type: globalTypes.STATUS, payload: false })
+  }
+
   return (
     <div className="status_modal">
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="status_header">
           <h5 className="m-0">Create Post</h5>
           <span
@@ -146,7 +166,7 @@ const StatusModal = () => {
             }
           </div>
           <div className="status_footer">
-            <button className="btn btn-secondary w-100">
+            <button className="btn btn-secondary w-100" type="submit">
               Post
             </button>
           </div>

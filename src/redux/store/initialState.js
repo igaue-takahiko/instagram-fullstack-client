@@ -8,4 +8,7 @@ export const initialState = {
     posts: [],
   },
   status: false,
+  homePost: {
+    posts: [],
+  },
 };

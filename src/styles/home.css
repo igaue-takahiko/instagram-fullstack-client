@@ -19,4 +19,5 @@
 
 .status .status_btn:hover {
   background: #ddd;
+  box-shadow: 0 0 18px #ddd;
 }

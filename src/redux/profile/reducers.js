@@ -1,6 +1,6 @@
 import { profileTypes } from "./types";
 import { initialState } from "../store/initialState";
-import { EditData } from "../globalState/helpers";
+import { EditData } from "./helpers";
 
 export const profileReducer = (state = initialState.profile, action) => {
   switch (action.type) {
