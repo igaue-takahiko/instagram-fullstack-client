@@ -1,9 +1,20 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
+
+import { CardHeader, CardBody, CardFooter } from './post_card';
 
 const Posts = () => {
+  const { homePosts } = useSelector(state => state)
+
   return (
-    <div>
-      posts
+    <div className="posts">
+      {homePosts.posts.map((post) => (
+        <div className="card my-3" key={post._id}>
+          <CardHeader post={post} />
+          <CardBody post={post} />
+          <CardFooter post={post} />
+        </div>
+      ))}
     </div>
   )
 }

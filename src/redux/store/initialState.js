@@ -9,6 +9,9 @@ export const initialState = {
   },
   status: false,
   homePost: {
+    loading: false,
     posts: [],
+    result: 0,
+    page: 2,
   },
 };

@@ -15,7 +15,7 @@ const rootReducer = combineReducers({
   theme: themeReducer,
   profile: profileReducer,
   status: statusReducer,
-  homePost: postReducer,
+  homePosts: postReducer,
 });
 
 export const store = createStore(

@@ -6,6 +6,7 @@ import { PageRender, PrivateRouter } from './customRouter';
 import { Home, Login, Register } from './pages';
 import { Alert, Header, StatusModal } from './components';
 import { refreshToken } from './redux/auth/actions';
+import { getPosts } from './redux/post/actions';
 
 const App = () => {
   const dispatch = useDispatch()
@@ -14,6 +15,12 @@ const App = () => {
   useEffect(() => {
     dispatch(refreshToken())
   },[dispatch])
+
+  useEffect(() => {
+    if (auth.token) {
+      dispatch(getPosts(auth.token))
+    }
+  },[auth.token, dispatch])
 
   return (
     <>
