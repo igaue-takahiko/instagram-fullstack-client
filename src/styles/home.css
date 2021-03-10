@@ -24,7 +24,7 @@
 
 /*-------- Posts ----------*/
 .posts .card {
-  box-shadow: 0 0 10px #ddd;
+  box-shadow: 0 0 4px #ddd;
 }
 
 /*-------- Post Card Header ----------*/
@@ -49,4 +49,30 @@
 .posts .card_header .dropdown-item {
   display: flex;
   margin: 4px 0;
+}
+
+/*-------- Post Card Body ----------*/
+.posts .card_body_content {
+  padding: 0 24px;
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
+
+.posts .card_body_content .readMore {
+  color: crimson;
+  cursor: pointer;
+}
+
+/*-------- Post Card Footer ----------*/
+.posts .card_icon_menu {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 16px;
+}
+
+.posts .card_icon_menu img {
+  width: 28px;
+  height: 28px;
+  transform: translate(8px, -12px);
+  opacity: 0.9;
 }

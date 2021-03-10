@@ -1,14 +1,14 @@
-import React, { useState, useCallback, useRef } from 'react'
+import React, { useState, useCallback, useRef, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera, faImage } from '@fortawesome/free-solid-svg-icons';
 
 import { globalTypes } from '../redux/globalState/types';
-import { createPost } from '../redux/post/actions';
+import { createPost, updatePost } from '../redux/post/actions';
 
 const StatusModal = () => {
   const dispatch = useDispatch()
-  const { auth, theme } = useSelector(state => state)
+  const { auth, theme, status } = useSelector(state => state)
 
   const videoRef = useRef()
   const refCanvas = useRef()
@@ -89,7 +89,12 @@ const StatusModal = () => {
         payload: { error: "Please add your photo." }
       })
     }
-    dispatch(createPost({ content, images, auth }))
+
+    if (status.onEdit) {
+      dispatch(updatePost({ content, images, auth, status }))
+    } else {
+      dispatch(createPost({ content, images, auth }))
+    }
 
     setContent("")
     setImages([])
@@ -98,6 +103,13 @@ const StatusModal = () => {
     }
     dispatch({ type: globalTypes.STATUS, payload: false })
   }
+
+  useEffect(() => {
+    if (status.onEdit) {
+      setContent(status.content)
+      setImages(status.images)
+    }
+  },[status])
 
   return (
     <div className="status_modal">
@@ -121,7 +133,12 @@ const StatusModal = () => {
                 <img
                   className="img-thumbnail"
                   style={{ filter: theme ? "invert(1)" : "invert(0)" }}
-                  src={image.camera ? image.camera : URL.createObjectURL(image)} alt="images"
+                  src={
+                    image.camera
+                    ? image.camera
+                    : image.url ? image.url : URL.createObjectURL(image)
+                  }
+                  alt="images"
                 />
                 <span onClick={() => deleteImages(index)}>
                   &times;

@@ -3,11 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 
+import { globalTypes } from '../../../redux/globalState/types';
 import Avatar from '../../Avatar';
 
 const CardHeader = ({ post }) => {
   const dispatch = useDispatch()
   const { auth } = useSelector(state => state)
+
+  const handleEditPost = () => {
+    dispatch({ type: globalTypes.STATUS, payload: { ...post, onEdit: true } })
+  }
 
   return (
     <div className="card_header">
@@ -26,12 +31,12 @@ const CardHeader = ({ post }) => {
       </div>
       <div className="nav-item dropdown">
         <span className="material-icons" id="moreLink" data-toggle="dropdown">
-          more
+          more_horiz
         </span>
         <div className="dropdown-menu">
           {auth.user._id === post.user._id && (
             <>
-              <div className="dropdown-item">
+              <div className="dropdown-item" onClick={() => handleEditPost()}>
                 <span className="material-icons">create</span> Edit Post
               </div>
               <div className="dropdown-item">
