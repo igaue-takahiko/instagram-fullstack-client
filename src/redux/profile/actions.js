@@ -1,6 +1,6 @@
 import { globalTypes } from "../globalState/types";
 import { profileTypes } from "./types";
-import { DeleteData } from "./helpers";
+import { DeleteData } from "../globalState/helpers";
 import { getDataAPI, patchDataAPI } from "../../utils/fetchData";
 import { imageUpload } from "../../utils/imageUpdated";
 

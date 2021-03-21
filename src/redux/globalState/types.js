@@ -3,4 +3,5 @@ export const globalTypes = {
   ALERT: "ALERT",
   THEME: "THEME",
   STATUS: "STATUS",
+  MODAL: "MODAL",
 };

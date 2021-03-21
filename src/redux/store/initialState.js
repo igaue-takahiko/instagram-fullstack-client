@@ -2,6 +2,7 @@ export const initialState = {
   auth: {},
   alert: {},
   theme: false,
+  modal: false,
   profile: {
     loading: false,
     users: [],

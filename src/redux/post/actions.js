@@ -86,3 +86,29 @@ export const updatePost = ({ content, images, auth, status }) => async (
     });
   }
 };
+
+export const likePost = ({ post, auth }) => async (dispatch) => {
+  const newPost = { ...post, likes: [...post.likes, auth.user] };
+  dispatch({ type: postTypes.UPDATE_POST, payload: newPost });
+  try {
+    await patchDataAPI(`post/${post._id}/like`, null, auth.token);
+  } catch (error) {
+    dispatch({
+      type: globalTypes.ALERT,
+      payload: { error: error.response.data.msg },
+    });
+  }
+};
+
+export const unLikePost = ({ post, auth }) => async (dispatch) => {
+  const newPost = { ...post, likes: post.likes.filter(like => like._id !== auth.user._id) };
+  dispatch({ type: postTypes.UPDATE_POST, payload: newPost });
+  try {
+    await patchDataAPI(`post/${post._id}/unlike`, null, auth.token);
+  } catch (error) {
+    dispatch({
+      type: globalTypes.ALERT,
+      payload: { error: error.response.data.msg },
+    });
+  }
+};

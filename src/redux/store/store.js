@@ -2,19 +2,21 @@ import { createStore, applyMiddleware, combineReducers } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 
-import { authReducer } from "../auth/reducers";
 import { alertReducer } from "../globalState/alert/reducers";
 import { themeReducer } from "../globalState/theme/reducers";
-import { profileReducer } from "../profile/reducers";
 import { statusReducer } from "../globalState/status/reducers";
+import { modalReducer } from '../globalState/modal/reducers';
+import { authReducer } from "../auth/reducers";
+import { profileReducer } from "../profile/reducers";
 import { postReducer } from "../post/reducers";
 
 const rootReducer = combineReducers({
-  auth: authReducer,
   alert: alertReducer,
   theme: themeReducer,
-  profile: profileReducer,
+  modal: modalReducer,
   status: statusReducer,
+  auth: authReducer,
+  profile: profileReducer,
   homePosts: postReducer,
 });
 

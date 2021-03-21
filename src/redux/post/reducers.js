@@ -1,6 +1,6 @@
 import { postTypes } from "./types";
 import { initialState } from "../store/initialState";
-import { EditData } from "../profile/helpers";
+import { EditData } from "../globalState/helpers";
 
 export const postReducer = (state = initialState.homePost, action) => {
   switch (action.type) {
