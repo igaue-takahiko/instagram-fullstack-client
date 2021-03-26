@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 
-import { createComment } from '../../redux/comment/actions';
+import { createComment } from '../../redux/post/actions';
 
-const InputComment = ({ children, post }) => {
+const InputComment = ({ children, post, onReply, setOnReply }) => {
   const dispatch = useDispatch()
   const { auth } = useSelector(state => state)
 
@@ -12,6 +12,9 @@ const InputComment = ({ children, post }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     if (!content.trim()) {
+      if (setOnReply) {
+        return setOnReply(false)
+      }
       return
     }
 
@@ -20,9 +23,14 @@ const InputComment = ({ children, post }) => {
       content,
       likes: [],
       user: auth.user,
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
+      reply: onReply && onReply.commentId,
+      tag: onReply && onReply.user
     }
     dispatch(createComment({ post, newComment, auth }))
+    if (setOnReply) {
+      return setOnReply(false)
+    }
   }
 
   return (
