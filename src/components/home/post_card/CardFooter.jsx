@@ -6,7 +6,7 @@ import { faComment, faBookmark } from '@fortawesome/free-regular-svg-icons';
 
 import Send from '../../../images/send.svg';
 import LikeButton from '../../LikeButton';
-import { likePost, unLikePost } from '../../../redux/post/actions';
+import { likePost, unLikePost } from '../../../redux/homePost/actions';
 
 const CardFooter = ({ post }) => {
   const dispatch = useDispatch()

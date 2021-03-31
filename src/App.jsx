@@ -6,7 +6,7 @@ import { PageRender, PrivateRouter } from './customRouter';
 import { Home, Login, Register } from './pages';
 import { Alert, Header, StatusModal } from './components';
 import { refreshToken } from './redux/auth/actions';
-import { getPosts } from './redux/post/actions';
+import { getPosts } from './redux/homePost/actions';
 
 const App = () => {
   const dispatch = useDispatch()

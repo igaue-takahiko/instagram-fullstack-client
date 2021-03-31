@@ -1,0 +1,42 @@
+.posts_thumb {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  justify-content: center;
+  grid-gap: 8px;
+  overflow: hidden;
+  margin: 16px 0;
+}
+
+.posts_thumb_display {
+  min-width: 320px;
+  height: 320px;
+  width: 100%;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+}
+.posts_thumb_display img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.posts_thumb_display .posts_thumb_menu {
+  position: absolute;
+  display: flex;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #0008;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.posts_thumb_display:hover .posts_thumb_menu {
+  opacity: 1;
+}

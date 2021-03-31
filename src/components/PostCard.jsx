@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { CardBody, CardHeader, CardFooter } from './home/post_card';
-import { Comments, InputComment } from './/home';
+import { Comments, InputComment } from './home';
 
 const PostCard = ({ post }) => {
   return (

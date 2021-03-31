@@ -68,3 +68,6 @@ img {
 /*-------- Comments ----------*/
 @import url("./comments.css");
 
+/*-------- Post Thumbnail ----------*/
+@import url("./post_thumbnail.css");
+

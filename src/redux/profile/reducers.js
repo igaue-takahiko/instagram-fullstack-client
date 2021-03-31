@@ -24,6 +24,16 @@ export const profileReducer = (state = initialState.profile, action) => {
         ...state,
         users: EditData(state.users, action.payload._id, action.payload),
       };
+    case profileTypes.GET_ID:
+      return {
+        ...state,
+        ids: [...state.ids, action.payload],
+      };
+    case profileTypes.GET_POSTS:
+    return {
+      ...state,
+      posts: [...state.posts, action.payload],
+    };
     default:
       return state;
   }

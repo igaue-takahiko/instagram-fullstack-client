@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 
-import { deleteComment } from '../../../redux/post/actions';
+import { deleteComment } from '../../../redux/homePost/actions';
 
 const CommentMenu = ({ post, comment, setOnEdit }) => {
   const dispatch = useDispatch()

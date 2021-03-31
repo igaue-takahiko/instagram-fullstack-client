@@ -1,5 +1,5 @@
 import { globalTypes } from "../globalState/types";
-import { postTypes } from "./types";
+import { homePostTypes } from "./types";
 import { imageUpload } from "../../utils/imageUpdated";
 import { postDataAPI, getDataAPI, patchDataAPI, deleteDataAPI } from "../../utils/fetchData";
 import { EditData, DeleteData } from '../globalState/helpers';
@@ -19,7 +19,7 @@ export const createPost = ({ content, images, auth }) => async (dispatch) => {
     );
 
     dispatch({
-      type: postTypes.CREATE_POST,
+      type: homePostTypes.CREATE_POST,
       payload: { ...res.data.newPost, user: auth.user },
     });
     dispatch({ type: globalTypes.ALERT, payload: { loading: false } });
@@ -33,13 +33,13 @@ export const createPost = ({ content, images, auth }) => async (dispatch) => {
 
 export const getPosts = (token) => async (dispatch) => {
   try {
-    dispatch({ type: postTypes.LOADING_POST, payload: true });
+    dispatch({ type: homePostTypes.LOADING_POST, payload: true });
     const res = await getDataAPI("posts", token);
     dispatch({
-      type: postTypes.GET_POSTS,
+      type: homePostTypes.GET_POSTS,
       payload: res.data,
     });
-    dispatch({ type: postTypes.LOADING_POST, payload: false });
+    dispatch({ type: homePostTypes.LOADING_POST, payload: false });
   } catch (error) {
     dispatch({
       type: globalTypes.ALERT,
@@ -78,7 +78,7 @@ export const updatePost = ({ content, images, auth, status }) => async (
       auth.token
     );
 
-    dispatch({ type: postTypes.UPDATE_POST, payload: res.data.newPost });
+    dispatch({ type: homePostTypes.UPDATE_POST, payload: res.data.newPost });
     dispatch({ type: globalTypes.ALERT, payload: { success: res.data.msg } });
   } catch (error) {
     dispatch({
@@ -90,7 +90,7 @@ export const updatePost = ({ content, images, auth, status }) => async (
 
 export const likePost = ({ post, auth }) => async (dispatch) => {
   const newPost = { ...post, likes: [...post.likes, auth.user] };
-  dispatch({ type: postTypes.UPDATE_POST, payload: newPost });
+  dispatch({ type: homePostTypes.UPDATE_POST, payload: newPost });
   try {
     await patchDataAPI(`post/${post._id}/like`, null, auth.token);
   } catch (error) {
@@ -103,7 +103,7 @@ export const likePost = ({ post, auth }) => async (dispatch) => {
 
 export const unLikePost = ({ post, auth }) => async (dispatch) => {
   const newPost = { ...post, likes: post.likes.filter(like => like._id !== auth.user._id) };
-  dispatch({ type: postTypes.UPDATE_POST, payload: newPost });
+  dispatch({ type: homePostTypes.UPDATE_POST, payload: newPost });
   try {
     await patchDataAPI(`post/${post._id}/unlike`, null, auth.token);
   } catch (error) {
@@ -118,7 +118,7 @@ export const createComment = ({ post, newComment, auth }) => async (
   dispatch
 ) => {
   const newPost = { ...post, comments: [...post.comments, newComment] };
-  dispatch({ type: postTypes.UPDATE_POST, payload: newPost });
+  dispatch({ type: homePostTypes.UPDATE_POST, payload: newPost });
 
   try {
     const data = { ...newComment, postId: post._id, postUserId: post.user._id };
@@ -126,7 +126,7 @@ export const createComment = ({ post, newComment, auth }) => async (
 
     const newData = { ...res.data.newComment, user: auth.user };
     const newPost = { ...post, comments: [...post.comments, newData] };
-    dispatch({ type: postTypes.UPDATE_POST, payload: newPost });
+    dispatch({ type: homePostTypes.UPDATE_POST, payload: newPost });
   } catch (error) {
     dispatch({
       type: globalTypes.ALERT,
@@ -144,7 +144,7 @@ export const updateComment = ({ comment, post, content, auth }) => async (
   });
   const newPost = { ...post, comments: newComments };
 
-  dispatch({ type: postTypes.UPDATE_POST, payload: newPost });
+  dispatch({ type: homePostTypes.UPDATE_POST, payload: newPost });
 
   try {
     await patchDataAPI(`comment/${comment._id}`, { content }, auth.token);
@@ -163,7 +163,7 @@ export const likeComment = ({ comment, post, auth }) => async (dispatch) => {
 
   const newPost = { ...post, comments: newComments };
 
-  dispatch({ type: postTypes.UPDATE_POST, payload: newPost });
+  dispatch({ type: homePostTypes.UPDATE_POST, payload: newPost });
   try {
     await patchDataAPI(`comment/${comment._id}/like`, null, auth.token);
   } catch (error) {
@@ -184,7 +184,7 @@ export const unlikeComment = ({ comment, post, auth }) => async (dispatch) => {
 
   const newPost = { ...post, comments: newComments };
 
-  dispatch({ type: postTypes.UPDATE_POST, payload: newPost });
+  dispatch({ type: homePostTypes.UPDATE_POST, payload: newPost });
   try {
     await patchDataAPI(`comment/${comment._id}/unlike`, null, auth.token);
   } catch (error) {
@@ -208,7 +208,7 @@ export const deleteComment = ({ post, comment, auth }) => async (dispatch) => {
     ),
   };
 
-  dispatch({ type: postTypes.UPDATE_POST, payload: newPost })
+  dispatch({ type: homePostTypes.UPDATE_POST, payload: newPost })
   try {
     deleteArr.forEach(item => {
       deleteDataAPI(`comment/${item._id}`, auth.token)

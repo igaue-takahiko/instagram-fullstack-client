@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 
-import { updateComment, likeComment, unlikeComment } from '../../../redux/post/actions';
+import { updateComment, likeComment, unlikeComment } from '../../../redux/homePost/actions';
 
 import Avatar from '../../Avatar';
 import LikeButton from '../../LikeButton';

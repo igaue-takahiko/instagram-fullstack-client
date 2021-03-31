@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera, faImage } from '@fortawesome/free-solid-svg-icons';
 
 import { globalTypes } from '../redux/globalState/types';
-import { createPost, updatePost } from '../redux/post/actions';
+import { createPost, updatePost } from '../redux/homePost/actions';
 
 const StatusModal = () => {
   const dispatch = useDispatch()

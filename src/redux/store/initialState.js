@@ -5,6 +5,7 @@ export const initialState = {
   modal: false,
   profile: {
     loading: false,
+    ids: [],
     users: [],
     posts: [],
   },
@@ -15,4 +16,5 @@ export const initialState = {
     result: 0,
     page: 2,
   },
+  detailPost: []
 };

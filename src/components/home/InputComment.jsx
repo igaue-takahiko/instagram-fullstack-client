@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 
-import { createComment } from '../../redux/post/actions';
+import { createComment } from '../../redux/homePost/actions';
 
 const InputComment = ({ children, post, onReply, setOnReply }) => {
   const dispatch = useDispatch()
