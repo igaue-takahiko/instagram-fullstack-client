@@ -1,6 +1,6 @@
 import { homePostTypes } from "./types";
 import { initialState } from "../store/initialState";
-import { EditData } from "../globalState/helpers";
+import { EditData, DeleteData } from "../globalState/helpers";
 
 export const homePostReducer = (state = initialState.homePost, action) => {
   switch (action.type) {
@@ -19,11 +19,17 @@ export const homePostReducer = (state = initialState.homePost, action) => {
         ...state,
         posts: action.payload.posts,
         result: action.payload.result,
+        page: action.payload.page,
       };
     case homePostTypes.UPDATE_POST:
       return {
         ...state,
         posts: EditData(state.posts, action.payload._id, action.payload),
+      };
+    case homePostTypes.DELETE_POST:
+      return {
+        ...state,
+        posts: DeleteData(state.posts, action.payload._id),
       };
     default:
       return state;

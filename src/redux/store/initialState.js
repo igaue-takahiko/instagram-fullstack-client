@@ -16,5 +16,12 @@ export const initialState = {
     result: 0,
     page: 2,
   },
-  detailPost: []
+  detailPost: [],
+  discover: {
+    loading: false,
+    posts: [],
+    result: 9,
+    page: 2,
+    firstLoad: false
+  }
 };

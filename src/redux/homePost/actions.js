@@ -1,8 +1,13 @@
 import { globalTypes } from "../globalState/types";
 import { homePostTypes } from "./types";
 import { imageUpload } from "../../utils/imageUpdated";
-import { postDataAPI, getDataAPI, patchDataAPI, deleteDataAPI } from "../../utils/fetchData";
-import { EditData, DeleteData } from '../globalState/helpers';
+import {
+  postDataAPI,
+  getDataAPI,
+  patchDataAPI,
+  deleteDataAPI,
+} from "../../utils/fetchData";
+import { EditData, DeleteData } from "../globalState/helpers";
 
 export const createPost = ({ content, images, auth }) => async (dispatch) => {
   let media = [];
@@ -37,7 +42,7 @@ export const getPosts = (token) => async (dispatch) => {
     const res = await getDataAPI("posts", token);
     dispatch({
       type: homePostTypes.GET_POSTS,
-      payload: res.data,
+      payload: { ...res.data, page: 2 },
     });
     dispatch({ type: homePostTypes.LOADING_POST, payload: false });
   } catch (error) {
@@ -88,6 +93,19 @@ export const updatePost = ({ content, images, auth, status }) => async (
   }
 };
 
+export const deletePost = ({ post, auth }) => async (dispatch) => {
+  dispatch({ type: homePostTypes.DELETE_POST, payload: post });
+
+  try {
+    await deleteDataAPI(`post/${post._id}`, auth.token);
+  } catch (error) {
+    dispatch({
+      type: globalTypes.ALERT,
+      payload: { error: error.response.data.msg },
+    });
+  }
+};
+
 export const likePost = ({ post, auth }) => async (dispatch) => {
   const newPost = { ...post, likes: [...post.likes, auth.user] };
   dispatch({ type: homePostTypes.UPDATE_POST, payload: newPost });
@@ -102,7 +120,10 @@ export const likePost = ({ post, auth }) => async (dispatch) => {
 };
 
 export const unLikePost = ({ post, auth }) => async (dispatch) => {
-  const newPost = { ...post, likes: post.likes.filter(like => like._id !== auth.user._id) };
+  const newPost = {
+    ...post,
+    likes: post.likes.filter((like) => like._id !== auth.user._id),
+  };
   dispatch({ type: homePostTypes.UPDATE_POST, payload: newPost });
   try {
     await patchDataAPI(`post/${post._id}/unlike`, null, auth.token);
@@ -208,11 +229,11 @@ export const deleteComment = ({ post, comment, auth }) => async (dispatch) => {
     ),
   };
 
-  dispatch({ type: homePostTypes.UPDATE_POST, payload: newPost })
+  dispatch({ type: homePostTypes.UPDATE_POST, payload: newPost });
   try {
-    deleteArr.forEach(item => {
-      deleteDataAPI(`comment/${item._id}`, auth.token)
-    })
+    deleteArr.forEach((item) => {
+      deleteDataAPI(`comment/${item._id}`, auth.token);
+    });
   } catch (error) {
     dispatch({
       type: globalTypes.ALERT,

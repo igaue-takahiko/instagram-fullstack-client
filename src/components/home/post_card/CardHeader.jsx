@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 import { globalTypes } from '../../../redux/globalState/types';
+import { deletePost } from '../../../redux/homePost/actions';
 import Avatar from '../../Avatar';
 
 const CardHeader = ({ post }) => {
@@ -12,6 +13,10 @@ const CardHeader = ({ post }) => {
 
   const handleEditPost = () => {
     dispatch({ type: globalTypes.STATUS, payload: { ...post, onEdit: true } })
+  }
+
+  const handleDeletePost = () => {
+    dispatch(deletePost({ post, auth }))
   }
 
   return (
@@ -36,10 +41,10 @@ const CardHeader = ({ post }) => {
         <div className="dropdown-menu">
           {auth.user._id === post.user._id && (
             <>
-              <div className="dropdown-item" onClick={() => handleEditPost()}>
+              <div className="dropdown-item" onClick={handleEditPost}>
                 <span className="material-icons">create</span> Edit Post
               </div>
-              <div className="dropdown-item">
+              <div className="dropdown-item" onClick={handleDeletePost}>
                 <span className="material-icons">delete_outline</span> Remove Post
               </div>
             </>

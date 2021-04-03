@@ -10,6 +10,7 @@ import { authReducer } from "../auth/reducers";
 import { profileReducer } from "../profile/reducers";
 import { homePostReducer } from "../homePost/reducers";
 import { detailPostReducer } from "../detailPost/reducers";
+import { discoverReducer } from "../discover/reducers";
 
 const rootReducer = combineReducers({
   alert: alertReducer,
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   profile: profileReducer,
   homePosts: homePostReducer,
   detailPost: detailPostReducer,
+  discover: discoverReducer,
 });
 
 export const store = createStore(

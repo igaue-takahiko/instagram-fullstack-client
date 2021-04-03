@@ -30,10 +30,15 @@ export const profileReducer = (state = initialState.profile, action) => {
         ids: [...state.ids, action.payload],
       };
     case profileTypes.GET_POSTS:
-    return {
-      ...state,
-      posts: [...state.posts, action.payload],
-    };
+      return {
+        ...state,
+        posts: [...state.posts, action.payload],
+      };
+    case profileTypes.UPDATE_PROFILE_POST:
+      return {
+        ...state,
+        posts: EditData(state.posts, action.payload._id, action.payload),
+      };
     default:
       return state;
   }
