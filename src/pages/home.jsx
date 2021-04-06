@@ -19,7 +19,9 @@ const Home = () => {
             : <Posts />
         }
       </div>
-      <div className="col-md-4"></div>
+      <div className="col-md-4">
+        sideBar
+      </div>
     </div>
   )
 }

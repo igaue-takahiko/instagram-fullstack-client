@@ -1,14 +1,17 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import moment from 'moment';
 
 import { globalTypes } from '../../../redux/globalState/types';
 import { deletePost } from '../../../redux/homePost/actions';
+import { BASE_URL } from '../../../utils/config';
+
 import Avatar from '../../Avatar';
 
 const CardHeader = ({ post }) => {
   const dispatch = useDispatch()
+  const history = useHistory()
   const { auth } = useSelector(state => state)
 
   const handleEditPost = () => {
@@ -16,7 +19,14 @@ const CardHeader = ({ post }) => {
   }
 
   const handleDeletePost = () => {
-    dispatch(deletePost({ post, auth }))
+    if (window.confirm("Are you sure want to delete this post?")) {
+      dispatch(deletePost({ post, auth }))
+      return history.push("/")
+    }
+  }
+
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(`${BASE_URL}/post/${post._id}`)
   }
 
   return (
@@ -49,7 +59,7 @@ const CardHeader = ({ post }) => {
               </div>
             </>
           )}
-          <div className="dropdown-item">
+          <div className="dropdown-item" onClick={handleCopyLink}>
             <span className="material-icons">content_copy</span> Copy Link
           </div>
         </div>

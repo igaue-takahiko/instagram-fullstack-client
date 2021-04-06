@@ -6,14 +6,17 @@ import { faComment, faBookmark } from '@fortawesome/free-regular-svg-icons';
 
 import Send from '../../../images/send.svg';
 import LikeButton from '../../LikeButton';
+import ShareModal from '../../ShareModal';
 import { likePost, unLikePost } from '../../../redux/homePost/actions';
+import { BASE_URL } from '../../../utils/config';
 
 const CardFooter = ({ post }) => {
   const dispatch = useDispatch()
-  const { auth } = useSelector(state => state)
+  const { auth, theme } = useSelector(state => state)
 
   const [ isLikes, setIsLikes ] = useState(false)
   const [ loadLike, setLoadLike ] = useState(false)
+  const [ isShare, setIsShare ] = useState(false)
 
   useEffect(() => {
     if (post.likes.find(like => like._id === auth.user._id)) {
@@ -56,7 +59,10 @@ const CardFooter = ({ post }) => {
               style={{ margin: 12 }}
             />
           </Link>
-          <img src={Send} alt="send"/>
+          <img
+            style={{ cursor: "pointer" }}
+            src={Send} alt="send" onClick={() => setIsShare(!isShare)}
+          />
         </div>
         <FontAwesomeIcon
           icon={faBookmark} cursor="pointer" size="lg"
@@ -71,6 +77,9 @@ const CardFooter = ({ post }) => {
           {`${post.comments.length} comments`}
         </h6>
       </div>
+      {isShare && (
+        <ShareModal url={`${BASE_URL}/post/${post._id}`} theme={theme} />
+      )}
     </div>
   )
 }
