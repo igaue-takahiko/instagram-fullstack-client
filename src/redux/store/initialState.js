@@ -23,5 +23,9 @@ export const initialState = {
     result: 9,
     page: 2,
     firstLoad: false
+  },
+  suggestions: {
+    loading: false,
+    users: []
   }
 };

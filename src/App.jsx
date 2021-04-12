@@ -7,6 +7,7 @@ import { Home, Login, Register } from './pages';
 import { Alert, Header, StatusModal } from './components';
 import { refreshToken } from './redux/auth/actions';
 import { getPosts } from './redux/homePost/actions';
+import { getSuggestions } from './redux/suggestions/actions';
 
 const App = () => {
   const dispatch = useDispatch()
@@ -19,6 +20,7 @@ const App = () => {
   useEffect(() => {
     if (auth.token) {
       dispatch(getPosts(auth.token))
+      dispatch(getSuggestions(auth.token))
     }
   },[auth.token, dispatch])
 
@@ -32,8 +34,10 @@ const App = () => {
           {status  && <StatusModal />}
           <Route exact path="/" component={auth.token ? Home : Login} />
           <Route exact path="/register" component={Register} />
-          <PrivateRouter exact path="/:page" component={PageRender} />
-          <PrivateRouter exact path="/:page/:id" component={PageRender} />
+          <div className="wrap_page">
+            <PrivateRouter exact path="/:page" component={PageRender} />
+            <PrivateRouter exact path="/:page/:id" component={PageRender} />
+          </div>
         </div>
       </div>
     </>

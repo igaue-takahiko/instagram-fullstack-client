@@ -35,10 +35,10 @@ const Posts = ({ auth, dispatch, id, profile }) => {
     <div>
       <PostsThumb posts={posts} result={result} />
       {load && <img className="d-block mx-auto" src={LoadIcon} alt="loading"/>}
-        <LoadMoreBtn
-          result={result} page={page}
-          load={load} handleLoadMore={handleLoadMore}
-        />
+      <LoadMoreBtn
+        result={result} page={page}
+        load={load} handleLoadMore={handleLoadMore}
+      />
     </div>
   )
 }

@@ -1,3 +1,8 @@
+.profile {
+  width: 100%;
+  min-width: 100vh;
+}
+
 /*-------- Info -----------*/
 .info {
   width: 100%;
@@ -152,4 +157,32 @@
   right: 3px;
   font-size: 3rem;
   cursor: pointer;
+}
+
+/*-------- Save Tab -----------*/
+
+.profile_tab {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.profile_tab button {
+  outline: none;
+  border: none;
+  background: #fff;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 1.2rem;
+  padding: 4px 24px;
+  margin: 0 24px;
+  opacity: 0.5;
+}
+
+.profile_tab button.active {
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+  opacity: 0.8;
 }

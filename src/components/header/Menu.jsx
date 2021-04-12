@@ -34,7 +34,7 @@ const Menu = () => {
               </Link>
             </li>
           ))}
-          <li className="nav-item dropdown">
+          <li className="nav-item dropdown" style={{ opacity: 1 }}>
             <span
               className="nav-link dropdown-toggle" id="navbarDropdown" role="button"
               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"

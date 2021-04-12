@@ -3,11 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment, faBookmark } from '@fortawesome/free-regular-svg-icons';
+import { faBookmark as fasBookmark } from '@fortawesome/free-solid-svg-icons';
 
 import Send from '../../../images/send.svg';
 import LikeButton from '../../LikeButton';
 import ShareModal from '../../ShareModal';
-import { likePost, unLikePost } from '../../../redux/homePost/actions';
+import { likePost, unLikePost, savePost, unSavePost } from '../../../redux/homePost/actions';
 import { BASE_URL } from '../../../utils/config';
 
 const CardFooter = ({ post }) => {
@@ -17,18 +18,31 @@ const CardFooter = ({ post }) => {
   const [ isLikes, setIsLikes ] = useState(false)
   const [ loadLike, setLoadLike ] = useState(false)
   const [ isShare, setIsShare ] = useState(false)
+  const [ saved, setSaved ] = useState(false)
+  const [ saveLoad, setSaveLoad ] = useState(false)
 
+  //likes
   useEffect(() => {
     if (post.likes.find(like => like._id === auth.user._id)) {
       setIsLikes(true)
+    } else {
+      setIsLikes(false)
     }
   },[auth.user._id, post.likes])
+
+  //Saved
+  useEffect(() => {
+    if (auth.user.saved.find(id => id === post._id)) {
+      setSaved(true)
+    } else {
+      setSaved(false)
+    }
+  },[auth.user.saved, post._id])
 
   const handleLike = () => {
     if (loadLike) {
       return
     }
-    setIsLikes(true)
     setLoadLike(true)
     dispatch(likePost({ post, auth }))
     setLoadLike(false)
@@ -38,9 +52,26 @@ const CardFooter = ({ post }) => {
     if (loadLike) {
       return
     }
-    setIsLikes(false)
     setLoadLike(true)
     dispatch(unLikePost({ post, auth }))
+    setLoadLike(false)
+  }
+
+  const handleSavePost = () => {
+    if (saveLoad) {
+      return
+    }
+    setLoadLike(true)
+    dispatch(savePost({ post, auth }))
+    setLoadLike(false)
+  }
+
+  const handleUnSavePost = () => {
+    if (saveLoad) {
+      return
+    }
+    setLoadLike(true)
+    dispatch(unSavePost({ post, auth }))
     setLoadLike(false)
   }
 
@@ -64,10 +95,20 @@ const CardFooter = ({ post }) => {
             src={Send} alt="send" onClick={() => setIsShare(!isShare)}
           />
         </div>
-        <FontAwesomeIcon
-          icon={faBookmark} cursor="pointer" size="lg"
-          style={{ margin: 12 }}
-        />
+        {
+          saved
+          ? <FontAwesomeIcon
+              className="text-info"
+              icon={fasBookmark} cursor="pointer" size="lg"
+              style={{ margin: 12 }}
+              onClick={handleUnSavePost}
+            />
+          : <FontAwesomeIcon
+              icon={faBookmark} cursor="pointer" size="lg"
+              style={{ margin: 12 }}
+              onClick={handleSavePost}
+            />
+        }
       </div>
       <div className="justify-content-between d-flex">
         <h6 style={{ padding: "0 32px", cursor: "pointer" }}>
