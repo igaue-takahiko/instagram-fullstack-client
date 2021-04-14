@@ -4,4 +4,5 @@ export const globalTypes = {
   THEME: "THEME",
   STATUS: "STATUS",
   MODAL: "MODAL",
+  SOCKET: "SOCKET",
 };

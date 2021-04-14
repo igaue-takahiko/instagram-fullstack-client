@@ -13,7 +13,7 @@ import { BASE_URL } from '../../../utils/config';
 
 const CardFooter = ({ post }) => {
   const dispatch = useDispatch()
-  const { auth, theme } = useSelector(state => state)
+  const { auth, theme, socket } = useSelector(state => state)
 
   const [ isLikes, setIsLikes ] = useState(false)
   const [ loadLike, setLoadLike ] = useState(false)
@@ -44,7 +44,7 @@ const CardFooter = ({ post }) => {
       return
     }
     setLoadLike(true)
-    dispatch(likePost({ post, auth }))
+    dispatch(likePost({ post, auth, socket }))
     setLoadLike(false)
   }
 
@@ -53,7 +53,7 @@ const CardFooter = ({ post }) => {
       return
     }
     setLoadLike(true)
-    dispatch(unLikePost({ post, auth }))
+    dispatch(unLikePost({ post, auth, socket }))
     setLoadLike(false)
   }
 
@@ -61,18 +61,18 @@ const CardFooter = ({ post }) => {
     if (saveLoad) {
       return
     }
-    setLoadLike(true)
+    setSaveLoad(true)
     dispatch(savePost({ post, auth }))
-    setLoadLike(false)
+    setSaveLoad(false)
   }
 
   const handleUnSavePost = () => {
     if (saveLoad) {
       return
     }
-    setLoadLike(true)
+    setSaveLoad(true)
     dispatch(unSavePost({ post, auth }))
-    setLoadLike(false)
+    setSaveLoad(false)
   }
 
   return (

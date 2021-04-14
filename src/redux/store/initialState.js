@@ -3,6 +3,7 @@ export const initialState = {
   alert: {},
   theme: false,
   modal: false,
+  socket: [],
   profile: {
     loading: false,
     ids: [],

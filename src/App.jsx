@@ -1,13 +1,17 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route } from 'react-router-dom';
+import io from 'socket.io-client';
 
 import { PageRender, PrivateRouter } from './customRouter';
 import { Home, Login, Register } from './pages';
 import { Alert, Header, StatusModal } from './components';
+import SocketClient from './SocketClient';
+
 import { refreshToken } from './redux/auth/actions';
 import { getPosts } from './redux/homePost/actions';
 import { getSuggestions } from './redux/suggestions/actions';
+import { globalTypes } from './redux/globalState/types';
 
 const App = () => {
   const dispatch = useDispatch()
@@ -15,6 +19,9 @@ const App = () => {
 
   useEffect(() => {
     dispatch(refreshToken())
+    const socket = io()
+    dispatch({ type: globalTypes.SOCKET, payload: socket })
+    return () => socket.close()
   },[dispatch])
 
   useEffect(() => {
@@ -32,6 +39,7 @@ const App = () => {
           {auth.token && <Header />}
         <div className="main">
           {status  && <StatusModal />}
+          {auth.token && <SocketClient />}
           <Route exact path="/" component={auth.token ? Home : Login} />
           <Route exact path="/register" component={Register} />
           <div className="wrap_page">

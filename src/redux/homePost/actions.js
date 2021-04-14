@@ -106,9 +106,12 @@ export const deletePost = ({ post, auth }) => async (dispatch) => {
   }
 };
 
-export const likePost = ({ post, auth }) => async (dispatch) => {
+export const likePost = ({ post, auth, socket }) => async (dispatch) => {
   const newPost = { ...post, likes: [...post.likes, auth.user] };
   dispatch({ type: homePostTypes.UPDATE_POST, payload: newPost });
+
+  socket.emit("likePost", newPost);
+
   try {
     await patchDataAPI(`post/${post._id}/like`, null, auth.token);
   } catch (error) {
@@ -119,12 +122,15 @@ export const likePost = ({ post, auth }) => async (dispatch) => {
   }
 };
 
-export const unLikePost = ({ post, auth }) => async (dispatch) => {
+export const unLikePost = ({ post, auth, socket }) => async (dispatch) => {
   const newPost = {
     ...post,
     likes: post.likes.filter((like) => like._id !== auth.user._id),
   };
   dispatch({ type: homePostTypes.UPDATE_POST, payload: newPost });
+
+  socket.emit("unLikePost", newPost);
+
   try {
     await patchDataAPI(`post/${post._id}/unlike`, null, auth.token);
   } catch (error) {
@@ -135,7 +141,7 @@ export const unLikePost = ({ post, auth }) => async (dispatch) => {
   }
 };
 
-export const createComment = ({ post, newComment, auth }) => async (
+export const createComment = ({ post, newComment, auth, socket }) => async (
   dispatch
 ) => {
   const newPost = { ...post, comments: [...post.comments, newComment] };
@@ -148,6 +154,9 @@ export const createComment = ({ post, newComment, auth }) => async (
     const newData = { ...res.data.newComment, user: auth.user };
     const newPost = { ...post, comments: [...post.comments, newData] };
     dispatch({ type: homePostTypes.UPDATE_POST, payload: newPost });
+
+    //Socket
+    socket.emit("createComment", newPost);
   } catch (error) {
     dispatch({
       type: globalTypes.ALERT,
@@ -216,7 +225,7 @@ export const unlikeComment = ({ comment, post, auth }) => async (dispatch) => {
   }
 };
 
-export const deleteComment = ({ post, comment, auth }) => async (dispatch) => {
+export const deleteComment = ({ post, comment, auth, socket }) => async (dispatch) => {
   const deleteArr = [
     ...post.comments.filter((cm) => cm.reply === comment._id),
     comment,
@@ -230,6 +239,8 @@ export const deleteComment = ({ post, comment, auth }) => async (dispatch) => {
   };
 
   dispatch({ type: homePostTypes.UPDATE_POST, payload: newPost });
+
+  socket.emit('deleteComment', newPost)
   try {
     deleteArr.forEach((item) => {
       deleteDataAPI(`comment/${item._id}`, auth.token);
@@ -247,7 +258,7 @@ export const savePost = ({ post, auth }) => async (dispatch) => {
   dispatch({ type: globalTypes.AUTH, payload: { ...auth, user: newUser } });
 
   try {
-    await patchDataAPI(`savePost/${post._id}`, null, auth.token)
+    await patchDataAPI(`savePost/${post._id}`, null, auth.token);
   } catch (error) {
     dispatch({
       type: globalTypes.ALERT,
@@ -257,15 +268,18 @@ export const savePost = ({ post, auth }) => async (dispatch) => {
 };
 
 export const unSavePost = ({ post, auth }) => async (dispatch) => {
-  const newUser = { ...auth.user, saved: auth.user.saved.filter(id => id !== post._id) };
+  const newUser = {
+    ...auth.user,
+    saved: auth.user.saved.filter((id) => id !== post._id),
+  };
   dispatch({ type: globalTypes.AUTH, payload: { ...auth, user: newUser } });
 
   try {
-    await patchDataAPI(`unSavePost/${post._id}`, null, auth.token)
+    await patchDataAPI(`unSavePost/${post._id}`, null, auth.token);
   } catch (error) {
     dispatch({
       type: globalTypes.ALERT,
       payload: { error: error.response.data.msg },
     });
   }
-}
+};

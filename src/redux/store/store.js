@@ -6,6 +6,7 @@ import { alertReducer } from "../globalState/alert/reducers";
 import { themeReducer } from "../globalState/theme/reducers";
 import { statusReducer } from "../globalState/status/reducers";
 import { modalReducer } from "../globalState/modal/reducers";
+import { socketReducer } from '../globalState/socket/reducers';
 import { authReducer } from "../auth/reducers";
 import { profileReducer } from "../profile/reducers";
 import { homePostReducer } from "../homePost/reducers";
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   theme: themeReducer,
   modal: modalReducer,
   status: statusReducer,
+  socket: socketReducer,
   auth: authReducer,
   profile: profileReducer,
   homePosts: homePostReducer,
