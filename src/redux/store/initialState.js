@@ -28,5 +28,10 @@ export const initialState = {
   suggestions: {
     loading: false,
     users: []
+  },
+  notify: {
+    loading: false,
+    data: [],
+    sound: false
   }
 };

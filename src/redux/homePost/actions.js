@@ -8,8 +8,9 @@ import {
   deleteDataAPI,
 } from "../../utils/fetchData";
 import { EditData, DeleteData } from "../globalState/helpers";
+import { createNotify, removeNotify } from '../notify/actions';
 
-export const createPost = ({ content, images, auth }) => async (dispatch) => {
+export const createPost = ({ content, images, auth, socket }) => async (dispatch) => {
   let media = [];
   try {
     dispatch({ type: globalTypes.ALERT, payload: { loading: true } });
@@ -28,6 +29,18 @@ export const createPost = ({ content, images, auth }) => async (dispatch) => {
       payload: { ...res.data.newPost, user: auth.user },
     });
     dispatch({ type: globalTypes.ALERT, payload: { loading: false } });
+
+    //Notify
+    const msg = {
+      id: res.data.newPost._id,
+      text: "added a new post.",
+      recipients: res.data.newPost.user.followers,
+      url: `/post/${res.data.newPost._id}`,
+      content,
+      image: media[0].url
+    };
+
+    dispatch(createNotify({ msg, auth, socket }))
   } catch (error) {
     dispatch({
       type: globalTypes.ALERT,
@@ -93,11 +106,21 @@ export const updatePost = ({ content, images, auth, status }) => async (
   }
 };
 
-export const deletePost = ({ post, auth }) => async (dispatch) => {
+export const deletePost = ({ post, auth, socket }) => async (dispatch) => {
   dispatch({ type: homePostTypes.DELETE_POST, payload: post });
 
   try {
-    await deleteDataAPI(`post/${post._id}`, auth.token);
+    const res = await deleteDataAPI(`post/${post._id}`, auth.token);
+
+    //Notify
+    const msg = {
+      id: post._id,
+      text: "added a new post.",
+      recipients: res.data.newPost.user.followers,
+      url: `/post/${post._id}`,
+    };
+
+    dispatch(removeNotify({ msg, auth, socket }))
   } catch (error) {
     dispatch({
       type: globalTypes.ALERT,
@@ -114,6 +137,18 @@ export const likePost = ({ post, auth, socket }) => async (dispatch) => {
 
   try {
     await patchDataAPI(`post/${post._id}/like`, null, auth.token);
+
+    //Notify
+    const msg = {
+      id: auth.user._id,
+      text: "like your post",
+      recipients: [post.user._id],
+      url: `/post/${post._id}`,
+      content: post.content,
+      image: post.images[0].url
+    };
+
+    dispatch(createNotify({ msg, auth, socket }))
   } catch (error) {
     dispatch({
       type: globalTypes.ALERT,
@@ -133,6 +168,15 @@ export const unLikePost = ({ post, auth, socket }) => async (dispatch) => {
 
   try {
     await patchDataAPI(`post/${post._id}/unlike`, null, auth.token);
+
+    //Notify
+    const msg = {
+      id: auth.user._id,
+      text: "like your post",
+      recipients: [post.user._id],
+      url: `/post/${post._id}`,
+    };
+    dispatch(removeNotify({ msg, auth, socket }))
   } catch (error) {
     dispatch({
       type: globalTypes.ALERT,
@@ -157,6 +201,18 @@ export const createComment = ({ post, newComment, auth, socket }) => async (
 
     //Socket
     socket.emit("createComment", newPost);
+
+    //Notify
+    const msg = {
+      id: res.data.newComment._id,
+      text: newComment.reply ? 'mentioned you in a comment.' : 'has commented on your post.',
+      recipients: newComment.reply ? [newComment.tag._id] : [post.user._id],
+      url: `/post/${post._id}`,
+      content: post.content,
+      image: post.images[0].url
+    };
+
+    dispatch(createNotify({ msg, auth, socket }))
   } catch (error) {
     dispatch({
       type: globalTypes.ALERT,
@@ -225,7 +281,9 @@ export const unlikeComment = ({ comment, post, auth }) => async (dispatch) => {
   }
 };
 
-export const deleteComment = ({ post, comment, auth, socket }) => async (dispatch) => {
+export const deleteComment = ({ post, comment, auth, socket }) => async (
+  dispatch
+) => {
   const deleteArr = [
     ...post.comments.filter((cm) => cm.reply === comment._id),
     comment,
@@ -240,10 +298,20 @@ export const deleteComment = ({ post, comment, auth, socket }) => async (dispatc
 
   dispatch({ type: homePostTypes.UPDATE_POST, payload: newPost });
 
-  socket.emit('deleteComment', newPost)
+  socket.emit("deleteComment", newPost);
   try {
     deleteArr.forEach((item) => {
       deleteDataAPI(`comment/${item._id}`, auth.token);
+
+      //Notify
+      const msg = {
+        id: item._id,
+        text: comment.reply ? 'mentioned you in a comment.' : 'has commented on your post.',
+        recipients: comment.reply ? [comment.tag._id] : [post.user._id],
+        url: `/post/${post._id}`,
+      };
+
+      dispatch(removeNotify({ msg, auth, socket }))
     });
   } catch (error) {
     dispatch({

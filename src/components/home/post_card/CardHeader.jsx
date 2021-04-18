@@ -12,7 +12,7 @@ import Avatar from '../../Avatar';
 const CardHeader = ({ post }) => {
   const dispatch = useDispatch()
   const history = useHistory()
-  const { auth } = useSelector(state => state)
+  const { auth, socket } = useSelector(state => state)
 
   const handleEditPost = () => {
     dispatch({ type: globalTypes.STATUS, payload: { ...post, onEdit: true } })
@@ -20,7 +20,7 @@ const CardHeader = ({ post }) => {
 
   const handleDeletePost = () => {
     if (window.confirm("Are you sure want to delete this post?")) {
-      dispatch(deletePost({ post, auth }))
+      dispatch(deletePost({ post, auth, socket }))
       return history.push("/")
     }
   }
