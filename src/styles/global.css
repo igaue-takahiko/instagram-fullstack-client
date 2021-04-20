@@ -85,6 +85,9 @@ img {
   .wrap_page {
     margin-bottom: 56px;
   }
+  .message {
+    height: calc(100vh - 152px)
+  }
 }
 
 /*-------- auth ----------*/
@@ -113,4 +116,7 @@ img {
 
 /*-------- Post Thumbnail ----------*/
 @import url("./post_thumbnail.css");
+
+/*-------- Message ----------*/
+@import url("./message.css");
 

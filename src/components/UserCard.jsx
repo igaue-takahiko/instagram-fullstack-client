@@ -19,7 +19,7 @@ const UserCard = ({ children, user, border, handleClose, setShowFollowers, setSh
   }
 
   return (
-    <div className={`d-flex p-2 align-items-center justify-content-between ${border}`}>
+    <div className={`d-flex p-2 align-items-center justify-content-between w-100 ${border}`}>
       <div>
         <Link
           className="d-flex align-items-center"

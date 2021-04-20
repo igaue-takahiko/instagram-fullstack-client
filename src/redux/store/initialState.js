@@ -23,15 +23,22 @@ export const initialState = {
     posts: [],
     result: 9,
     page: 2,
-    firstLoad: false
+    firstLoad: false,
   },
   suggestions: {
     loading: false,
-    users: []
+    users: [],
   },
   notify: {
     loading: false,
     data: [],
-    sound: false
-  }
+    sound: false,
+  },
+  message: {
+    users: [],
+    resultUsers: 0,
+    data: [],
+    resultData: 0,
+    firstLoad: false,
+  },
 };
