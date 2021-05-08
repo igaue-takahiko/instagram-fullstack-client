@@ -1,4 +1,5 @@
 import React from 'react'
+import { Helmet } from 'react-helmet-async';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMedal } from '@fortawesome/free-solid-svg-icons';
 
@@ -7,6 +8,10 @@ import { LeftSide } from "../../components/message";
 const Message = () => {
   return (
     <div className="message d-flex">
+      <Helmet>
+        <title>Message</title>
+        <meta name="description" content="message page"/>
+      </Helmet>
       <div className="col-md-4 border-right px-0">
         <LeftSide />
       </div>

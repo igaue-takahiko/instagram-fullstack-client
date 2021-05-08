@@ -4,6 +4,8 @@ export const initialState = {
   theme: false,
   modal: false,
   socket: [],
+  online: [],
+  call: null,
   profile: {
     loading: false,
     ids: [],
@@ -38,7 +40,6 @@ export const initialState = {
     users: [],
     resultUsers: 0,
     data: [],
-    resultData: 0,
     firstLoad: false,
   },
 };

@@ -10,7 +10,7 @@ import LoadIcon from '../../images/load-icon.gif';
 
 const Posts = () => {
   const dispatch = useDispatch()
-  const { homePosts, auth } = useSelector(state => state)
+  const { homePosts, auth, theme } = useSelector(state => state)
 
   const [ load, setLoad ] = useState(false)
 
@@ -24,7 +24,7 @@ const Posts = () => {
   return (
     <div className="posts">
       {homePosts.posts.map((post) => (
-        <PostCard key={post._id} post={post} />
+        <PostCard key={post._id} post={post} theme={theme}  />
       ))}
       {load && <img className="d-block mx-auto" src={LoadIcon} alt="loading"/>}
         <LoadMoreBtn

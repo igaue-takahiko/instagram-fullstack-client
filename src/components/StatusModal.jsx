@@ -5,6 +5,9 @@ import { faCamera, faImage } from '@fortawesome/free-solid-svg-icons';
 
 import { globalTypes } from '../redux/globalState/types';
 import { createPost, updatePost } from '../redux/homePost/actions';
+import { imagesShow, videoShow } from '../utils/mediaShow';
+
+import Icons from './Icons';
 
 const StatusModal = () => {
   const dispatch = useDispatch()
@@ -31,8 +34,8 @@ const StatusModal = () => {
       if (!file) {
         return error = "File does not exist."
       }
-      if (file.type !== "image/jpeg" && file.type !== "image/jpg" && file.type !== "image/png") {
-        return error = "Image format is incorrect."
+      if (file.size > 1024 * 1024 * 5) {
+        return error = "The image/video largest is 5mb."
       }
       return newImages.push(file)
     })
@@ -104,6 +107,7 @@ const StatusModal = () => {
     dispatch({ type: globalTypes.STATUS, payload: false })
   }
 
+
   useEffect(() => {
     if (status.onEdit) {
       setContent(status.content)
@@ -126,20 +130,37 @@ const StatusModal = () => {
           <textarea
             name="content" placeholder={`${auth.user.username}, what are you thinking?`}
             value={content} onChange={contentChangeInput}
+            style={{
+              filter: theme ? "invert(1)" : "invert(0)",
+              color: theme ? "white" : "#111",
+              background: theme ? "rgba(0, 0, 0, .03)" : "",
+            }}
           />
+          <div className="d-flex">
+            <div className="flex-fill"></div>
+            <Icons setContent={setContent} content={content} theme={theme} />
+          </div>
           <div className="show_images">
             {images.map((image, index) => (
               <div key={index} id="file_img">
-                <img
-                  className="img-thumbnail"
-                  style={{ filter: theme ? "invert(1)" : "invert(0)" }}
-                  src={
-                    image.camera
-                    ? image.camera
-                    : image.url ? image.url : URL.createObjectURL(image)
-                  }
-                  alt="images"
-                />
+                {
+                  image.camera ? imagesShow(image.camera, theme)
+                  : image.url
+                    ? <>
+                        {
+                          image.url.match(/video/i)
+                          ? videoShow(image.url, theme)
+                          : imagesShow(image.url, theme)
+                        }
+                      </>
+                    : <>
+                        {
+                          image.type.match(/video/i)
+                          ? videoShow(URL.createObjectURL(image), theme)
+                          : imagesShow(URL.createObjectURL(image), theme)
+                        }
+                      </>
+                }
                 <span onClick={() => deleteImages(index)}>
                   &times;
                 </span>
@@ -175,7 +196,7 @@ const StatusModal = () => {
                     <FontAwesomeIcon icon={faImage} cursor="pointer" size="2x" />
                     <input
                       type="file" name="file" id="file"
-                      multiple accept="image/*"
+                      multiple accept="image/*,video/*"
                       onChange={handleChangeImages}
                     />
                   </div>

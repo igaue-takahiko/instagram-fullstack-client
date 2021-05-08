@@ -6,6 +6,7 @@ import io from 'socket.io-client';
 import { PageRender, PrivateRouter } from './customRouter';
 import { Home, Login, Register } from './pages';
 import { Alert, Header, StatusModal } from './components';
+import { CallModal } from './components/message';
 import SocketClient from './SocketClient';
 
 import { refreshToken } from './redux/auth/actions';
@@ -17,7 +18,7 @@ import { globalTypes } from './redux/globalState/types';
 
 const App = () => {
   const dispatch = useDispatch()
-  const { auth, status, modal } = useSelector(state => state)
+  const { auth, status, modal, call } = useSelector(state => state)
 
   useEffect(() => {
     dispatch(refreshToken())
@@ -56,6 +57,7 @@ const App = () => {
         <div className="main">
           {status && <StatusModal />}
           {auth.token && <SocketClient />}
+          {call && <CallModal />}
           <Route exact path="/" component={auth.token ? Home : Login} />
           <Route exact path="/register" component={Register} />
           <div className="wrap_page">

@@ -3,9 +3,11 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { createComment } from '../../redux/homePost/actions';
 
+import Icons from '../Icons';
+
 const InputComment = ({ children, post, onReply, setOnReply }) => {
   const dispatch = useDispatch()
-  const { auth, socket } = useSelector(state => state)
+  const { auth, socket, theme } = useSelector(state => state)
 
   const [ content, setContent ] = useState("")
 
@@ -42,7 +44,13 @@ const InputComment = ({ children, post, onReply, setOnReply }) => {
       <input
         type="text" placeholder="Add your comments..."
         value={content} onChange={e => setContent(e.target.value)}
+        style={{
+          filter: theme ? "invert(1)" : "invert(0)",
+          color: theme ? "white" : "#111",
+          background: theme ? "rgba(0, 0, 0, .03)" : "",
+        }}
       />
+      <Icons setContent={setContent} content={content} theme={theme} />
       <button className="postBtn" type="submit">
         Post
       </button>

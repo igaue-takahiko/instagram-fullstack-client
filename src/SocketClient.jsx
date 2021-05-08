@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { globalTypes } from './redux/globalState/types';
 import { homePostTypes } from './redux/homePost/types';
 import { notifyTypes } from './redux/notify/types';
+import { messageTypes } from './redux/message/types';
 
 import audioBell from './audio/audio_bell.mp3';
 
@@ -23,12 +24,12 @@ const spawnNotification = (body, icon, url, title) => {
 const SocketClient = () => {
   const dispatch = useDispatch()
   const audioRef = useRef()
-  const { auth, socket, notify } = useSelector(state => state)
+  const { auth, socket, notify, online } = useSelector(state => state)
 
   //joinUser
   useEffect(() => {
-    socket.emit('joinUser', auth.user._id)
-  },[auth.user._id, socket])
+    socket.emit('joinUser', auth.user)
+  },[auth.user, socket])
 
   //likes
   useEffect(() => {
@@ -107,6 +108,55 @@ const SocketClient = () => {
 
     return () => socket.off('removeNotifyToClient')
   },[auth, dispatch, socket])
+
+  //Message
+  useEffect(() => {
+    socket.on("addMessageToClient", (msg) => {
+      dispatch({ type: messageTypes.ADD_MESSAGE, payload: msg })
+      dispatch({
+        type: messageTypes.ADD_USER,
+        payload: { ...msg.user, text: msg.text, media: msg.media }
+      })
+    })
+
+    return () => socket.off("addMessageToClient")
+  },[dispatch, socket])
+
+  //Check User Online
+  useEffect(() => {
+    socket.emit('checkUserOnline', auth.user)
+  },[auth.user, socket])
+
+  useEffect(() => {
+    socket.on("checkUserOnlineToMe", (data) => {
+      data.forEach((item) => {
+        if (!online.includes(item.id)) {
+          dispatch({ type: globalTypes.ONLINE, payload: item.id })
+        }
+      })
+    })
+
+    return () => socket.off("checkUserOnlineToMe")
+  },[dispatch, online, socket])
+
+  useEffect(() => {
+    socket.on("checkUserOnlineToClient", (id) => {
+      if (!online.includes(id)) {
+        dispatch({ type: globalTypes.ONLINE, payload: id })
+      }
+    })
+
+    return () => socket.off("checkUserOnlineToClient")
+  },[dispatch, online, socket])
+
+  //Check User Offline
+  useEffect(() => {
+    socket.on("checkUserOffline", (id) => {
+      dispatch({ type: globalTypes.OFFLINE, payload: id })
+    })
+
+    return () => socket.off("checkUserOffline")
+  },[dispatch, online, socket])
 
   return (
     <>

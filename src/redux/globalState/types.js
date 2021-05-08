@@ -5,4 +5,7 @@ export const globalTypes = {
   STATUS: "STATUS",
   MODAL: "MODAL",
   SOCKET: "SOCKET",
+  ONLINE: "ONLINE",
+  OFFLINE: "OFFLINE",
+  CALL: "CALL",
 };

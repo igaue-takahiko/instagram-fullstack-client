@@ -19,10 +19,18 @@ const PostsThumb = ({ posts, result }) => {
       {posts.map((post) => (
         <Link key={post._id} to={`/post/${post._id}`}>
           <div className="posts_thumb_display">
-            <img
-              src={post.images[0].url} alt={post.images[0].url}
-              style={{ filter: theme ? "invert(1)" : "invert(0)" }}
-            />
+            {
+              post.images[0].url.match(/video/i)
+              ? <video
+                  src={post.images[0].url} alt={post.images[0].url}
+                  style={{ filter: theme ? "invert(1)" : "invert(0)" }}
+                  controls
+                />
+              : <img
+                  src={post.images[0].url} alt={post.images[0].url}
+                  style={{ filter: theme ? "invert(1)" : "invert(0)" }}
+                />
+            }
             <div className="posts_thumb_menu">
               <div style={{ margin: "0 24px", display: "flex" }}>
                 <FontAwesomeIcon

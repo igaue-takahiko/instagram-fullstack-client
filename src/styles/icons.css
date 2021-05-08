@@ -1,0 +1,10 @@
+.react_icons {
+  display: grid;
+  grid-template-columns: repeat(4, 48px);
+  text-align: center;
+  cursor: pointer;
+}
+
+.react_icons span {
+  margin: 4px 0;
+}
